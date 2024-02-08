@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 from typing import Any
 
+import psycopg2
 from psycopg2.extensions import connection as _connection
 from redis import Redis
 
@@ -14,6 +15,7 @@ from extract.sql_queries import (
 from settings import settings
 from state.base import State
 from state.storage import RedisStorage
+from utils.decorators import backoff
 
 
 class PostgreSQLExtractor:
@@ -52,6 +54,7 @@ class PostgreSQLExtractor:
             FILMWORK_BY_IDS_SQL,
         )
 
+    @backoff((psycopg2.Error,))
     def extract_data(self, table_name: str) -> list[list[str]]:
         """
         Запускает процесс извлечения и обогащения данных для
