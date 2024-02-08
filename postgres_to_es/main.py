@@ -2,7 +2,6 @@ import logging
 import sys
 from pathlib import Path
 
-from dotenv import load_dotenv
 from elasticsearch import Elasticsearch
 
 from etl import ETL
@@ -10,7 +9,6 @@ from settings import settings
 from utils.managers import open_postgres_db
 
 if __name__ == "__main__":
-    load_dotenv()
     logging.basicConfig(
         level=logging.INFO,
         format=(
