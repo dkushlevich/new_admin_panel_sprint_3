@@ -78,7 +78,7 @@ class PostgreSQLExtractor:
 
     def _produce_data(self, table_name: str) -> str:
         """
-        Забирает модифицированные записи таблицы из хранилища
+        Извлекает модифицированные записи таблицы из PostgreSQL
         и обновляет стейт.
 
         :param table_name: название таблицы
