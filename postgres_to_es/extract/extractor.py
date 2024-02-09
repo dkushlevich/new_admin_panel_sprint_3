@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Any
 
 import psycopg2
 from psycopg2.extensions import connection as _connection
@@ -12,6 +11,7 @@ from extract.sql_queries import (
     MODIFIED_OBJECTS_SQL,
 )
 from logger import logger
+from models import FilmWork
 from settings import settings
 from state.base import State
 from state.storage import RedisStorage
@@ -136,16 +136,18 @@ class PostgreSQLExtractor:
     def _merge_data(
         self,
         filmworks_ids: str,
-    ) -> list[dict[str, Any]]:
+    ) -> list[FilmWork]:
         """
         Обогащает raw id данные.
 
         :param filmworks_ids: id изменённых записей таблице в виде '(id1, id2)'
         :return: список фильмов с необходимой для трансформации информацией.
         """
-        return self.merger.extract(
-            filmworks_ids=filmworks_ids,
-        )
+        return [
+            FilmWork(**dict(row_data))
+            for row_data
+            in self.merger.extract(filmworks_ids=filmworks_ids)
+        ]
 
     def update_state(self, table_name: str) -> None:
         """

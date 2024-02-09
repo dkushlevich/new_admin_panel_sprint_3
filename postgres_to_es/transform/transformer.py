@@ -1,5 +1,7 @@
 from collections import defaultdict
 
+from models import FilmWork
+
 
 class DataTransfromer:
     """
@@ -19,7 +21,7 @@ class DataTransfromer:
             },
         )
 
-    def transform(self, filmworks: list[dict[str, None]]):
+    def transform(self, filmworks: list[FilmWork]):
         """
         Запускает процесс трансформации данных.
 
@@ -32,7 +34,7 @@ class DataTransfromer:
 
     def _collect_data(
         self,
-        filmworks: list[dict[str, None]],
+        filmworks: list[FilmWork],
     ):
         """
         Собирает данные в коллектор класса.
@@ -41,19 +43,19 @@ class DataTransfromer:
         """
 
         for filmwork in filmworks:
-            uuid = filmwork[0]
+            uuid = filmwork.fw_id
             self.collector[uuid]["uuid"] = uuid
-            self.collector[uuid]["title"] = filmwork[1]
-            self.collector[uuid]["description"] = filmwork[2]
-            self.collector[uuid]["imdb_rate"] = filmwork[3]
+            self.collector[uuid]["title"] = filmwork.title
+            self.collector[uuid]["description"] = filmwork.description
+            self.collector[uuid]["imdb_rate"] = filmwork.rating
             self.collector[uuid]["p_info"].add(
                 (
-                    filmwork[4],
-                    filmwork[5],
-                    filmwork[6],
+                    filmwork.role,
+                    filmwork.full_name,
+                    filmwork.id,
                 ),
             )
-            self.collector[uuid]["genre_name"].add(filmwork[7])
+            self.collector[uuid]["genre_name"].add(filmwork.name)
 
     def _merge_data(self) -> list[dict[str, None]]:
         """
