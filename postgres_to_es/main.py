@@ -53,4 +53,5 @@ if __name__ == "__main__":
             es_connection,
             settings.table_names,
             settings.batch_size,
+            settings.elastic_index,
         )(settings.loop_sleep_time)

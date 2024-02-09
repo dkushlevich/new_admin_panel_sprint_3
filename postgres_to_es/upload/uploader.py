@@ -11,13 +11,13 @@ class ESUploader:
         self.es_connection = connection
 
     @backoff((ConnectionError,))
-    def insert_data(self, data: list[dict]) -> None:
+    def insert_data(self, data: list[dict], index:str) -> None:
         """
         Загружает данные в индекс movies
         :param data: Данные для загрузки в индекс
         """
         self.es_connection.bulk(
-            index="movies", # TODO убрать в настройки (?)
+            index=index,
             body=data,
             refresh=True,
         )

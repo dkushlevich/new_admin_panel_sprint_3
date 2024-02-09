@@ -18,6 +18,7 @@ class ETL:
         es_connection: Elasticsearch,
         table_names: list[str],
         batch_size: int,
+        index: str,
     ) -> None:
         self.pg_extractor = PostgreSQLExtractor(
             pg_connection,
@@ -27,6 +28,7 @@ class ETL:
         self.data_transformer = DataTransfromer()
         self.es_uploader = ESUploader(es_connection)
         self.table_names = table_names
+        self.index = index
 
         logging.info("ETL initialize completed.")
 
@@ -49,7 +51,7 @@ class ETL:
             logging.info(
                 f"Data for {table_name} ready for load to ES.",
             )
-            self.es_uploader.insert_data(transformed_data)
+            self.es_uploader.insert_data(transformed_data, self.index)
             logging.info(
                 "Records upload to ES.",
             )

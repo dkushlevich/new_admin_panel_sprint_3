@@ -14,6 +14,7 @@ class Settings(BaseSettings):
 
     elastic_host: str
     elastic_port: str
+    elastic_index: str
 
     table_names: list
     batch_size: int
