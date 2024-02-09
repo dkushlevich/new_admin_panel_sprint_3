@@ -33,8 +33,8 @@ class PostgreSQLExtractor:
         self.batch_size = batch_size
 
         redis = Redis(
-            host=settings.REDIS_HOST,
-            password=settings.REDIS_PASSWORD,
+            host=settings.redis_host,
+            password=settings.redis_password,
             decode_responses=True,
         )
         storage = RedisStorage(redis)

@@ -2,27 +2,26 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    POSTGRES_USER: str 
-    POSTGRES_PASSWORD: str
-    POSTGRES_DB: str 
-    POSTGRES_HOST: str
-    POSTGRES_PORT: str
+    postgres_user: str 
+    postgres_password: str
+    postgres_db: str 
+    postgres_host: str
+    postgres_port: str
 
-    REDIS_PORT: str
-    REDIS_HOST: str
-    REDIS_PASSWORD: str
+    redis_port: str
+    redis_host: str
+    redis_password: str
 
-    ELASTIC_HOST: str
-    ELASTIC_PORT: str
+    elastic_host: str
+    elastic_port: str
 
-    TABLE_NAMES: list
-    BATCH_SIZE: int
-    LOOP_SLEEP_TIME: int
+    table_names: list
+    batch_size: int
+    loop_sleep_time: int
 
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
-        case_sensitive = True
 
 
 settings = Settings()

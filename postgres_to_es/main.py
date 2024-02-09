@@ -33,13 +33,13 @@ if __name__ == "__main__":
     logger.info("Script running")
 
     DSN = {
-        "dbname": settings.POSTGRES_DB,
-        "user": settings.POSTGRES_USER,
-        "password": settings.POSTGRES_PASSWORD,
-        "host": settings.POSTGRES_HOST,
-        "port": settings.POSTGRES_PORT,
+        "dbname": settings.postgres_db,
+        "user": settings.postgres_user,
+        "password": settings.postgres_password,
+        "host": settings.postgres_host,
+        "port": settings.postgres_port,
     }
-    es_host = f"http://{settings.ELASTIC_HOST}:{settings.ELASTIC_PORT}"
+    es_host = f"http://{settings.elastic_host}:{settings.elastic_port}"
 
     with (
         open_postgres_db(DSN) as pg_connection,
@@ -51,6 +51,6 @@ if __name__ == "__main__":
         ETL(
             pg_connection,
             es_connection,
-            settings.TABLE_NAMES,
-            settings.BATCH_SIZE,
-        )(settings.LOOP_SLEEP_TIME)
+            settings.table_names,
+            settings.batch_size,
+        )(settings.loop_sleep_time)
