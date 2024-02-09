@@ -40,9 +40,9 @@ class ETL:
             try:
                 data = self.pg_extractor.extract_data(table_name)
                 logger.info(
-                    f"Modified recods succesfully extracted "
+                    "Modified recods succesfully extracted "
                     f"from table {table_name}.",
-                )
+                ) # TODO https://okomestudio.net/biboroku/2020/04/on-lazy-logging-evaluation/
             except EOFError:
                 logger.info("No modified data found.")
                 continue
