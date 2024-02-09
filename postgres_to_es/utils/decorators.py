@@ -1,7 +1,8 @@
-import logging
 import time
 from functools import wraps
 from typing import Any, Callable
+
+from logger import logger
 
 
 def backoff(
@@ -31,7 +32,7 @@ def backoff(
                 try:
                     return func(*args, **kwargs)
                 except exceptions:
-                    logging.exception("Execution problem found.")
+                    logger.exception("Execution problem found.")
                 sleep_time = start_sleep_time * (factor ** tries)
                 time.sleep(
                     sleep_time

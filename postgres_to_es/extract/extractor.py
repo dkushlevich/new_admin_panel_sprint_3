@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 from typing import Any
 
@@ -12,6 +11,7 @@ from extract.sql_queries import (
     FILMWORK_IDS_BY_RELATED_MODIFIED_SQL,
     MODIFIED_OBJECTS_SQL,
 )
+from logger import logger
 from settings import settings
 from state.base import State
 from state.storage import RedisStorage
@@ -105,7 +105,7 @@ class PostgreSQLExtractor:
         )
         modified_ids = [row["id"] for row in modified_data]
 
-        logging.info(
+        logger.info(
             f"Found {len(modified_ids)} modified records "
             f"in {table_name} table",
         )

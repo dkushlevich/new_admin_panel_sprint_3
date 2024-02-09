@@ -1,8 +1,9 @@
-import logging
 from contextlib import contextmanager
 
 import psycopg2
 from psycopg2.extras import DictCursor
+
+from logger import logger
 
 
 @contextmanager
@@ -14,9 +15,9 @@ def open_postgres_db(dsn: dict):
     """
     conn = psycopg2.connect(**dsn, cursor_factory=DictCursor)
     try:
-        logging.info("PostgreSQL creating connection")
+        logger.info("PostgreSQL creating connection")
         yield conn
     finally:
-        logging.info("PostgreSQL closing connection")
+        logger.info("PostgreSQL closing connection")
         conn.commit()
         conn.close()

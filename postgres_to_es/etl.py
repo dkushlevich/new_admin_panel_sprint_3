@@ -1,4 +1,3 @@
-import logging
 import time
 from itertools import cycle
 
@@ -6,6 +5,7 @@ from elasticsearch import Elasticsearch
 from psycopg2.extensions import connection as _connection
 
 from extract.extractor import PostgreSQLExtractor
+from logger import logger
 from transform.transformer import DataTransfromer
 from upload.uploader import ESUploader
 
@@ -30,29 +30,29 @@ class ETL:
         self.table_names = table_names
         self.index = index
 
-        logging.info("ETL initialize completed.")
+        logger.info("ETL initialize completed.")
 
     def __call__(self, sleep_time: int):
         for table_name in cycle(self.table_names):
-            logging.info(
+            logger.info(
                 f"Looking for modified records in {table_name}",
             )
             try:
                 data = self.pg_extractor.extract_data(table_name)
-                logging.info(
+                logger.info(
                     f"Modified recods succesfully extracted "
                     f"from table {table_name}.",
                 )
             except EOFError:
-                logging.info("No modified data found.")
+                logger.info("No modified data found.")
                 continue
 
             transformed_data = self.data_transformer.transform(data)
-            logging.info(
+            logger.info(
                 f"Data for {table_name} ready for load to ES.",
             )
             self.es_uploader.insert_data(transformed_data, self.index)
-            logging.info(
+            logger.info(
                 "Records upload to ES.",
             )
             time.sleep(sleep_time)
