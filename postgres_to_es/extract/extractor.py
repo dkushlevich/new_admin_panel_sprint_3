@@ -82,7 +82,7 @@ class PostgreSQLExtractor:
     def _produce_data(self, table_name: str) -> str:
         """
         Извлекает модифицированные записи таблицы из PostgreSQL
-        и обновляет стейт.
+        и обновляет буферный стейт.
 
         :param table_name: название таблицы
         :return: строка с id изменённых записей в виде '(id1, id2)'
@@ -101,7 +101,7 @@ class PostgreSQLExtractor:
 
 
         self.state.set_state(
-            f"{table_name}_modified", self.last_modified,
+            "current_modified", self.last_modified,
         )
         modified_ids = [row["id"] for row in modified_data]
 
@@ -145,4 +145,15 @@ class PostgreSQLExtractor:
         """
         return self.merger.extract(
             filmworks_ids=filmworks_ids,
+        )
+
+    def update_state(self, table_name: str) -> None:
+        """
+        Извлекает из буферного стейта состояние и обновляет им стейт таблицы
+
+        :param table_name: название таблицы
+        """
+        self.state.set_state(
+            f"{table_name}_modified",
+            self.state.get_state("current_modified"),
         )

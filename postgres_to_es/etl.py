@@ -51,8 +51,13 @@ class ETL:
             logger.info(
                 f"Data for {table_name} ready for load to ES.",
             )
+
             self.es_uploader.insert_data(transformed_data, self.index)
             logger.info(
                 "Records upload to ES.",
             )
+
+            self.pg_extractor.update_state(table_name)
+            logger.info(f"State for table {table_name} updated")
+
             time.sleep(sleep_time)
